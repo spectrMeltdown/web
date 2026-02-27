@@ -4,7 +4,6 @@ import {_t} from "@web/core/l10n/translation";
 import {browser} from "@web/core/browser/browser";
 import {cookie} from "@web/core/browser/cookie";
 import {registry} from "@web/core/registry";
-import {user} from "@web/core/user";
 
 export function darkModeSwitchItem(env) {
     return {
@@ -20,9 +19,9 @@ export function darkModeSwitchItem(env) {
 }
 
 export const colorSchemeService = {
-    dependencies: ["orm", "ui"],
+    dependencies: ["orm", "ui", "user"],
 
-    async start(env, {orm, ui}) {
+    async start(env, {orm, ui, user}) {
         registry.category("user_menuitems").add("darkmode", darkModeSwitchItem);
 
         if (!cookie.get("color_scheme")) {
