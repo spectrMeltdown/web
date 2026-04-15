@@ -1,3 +1,5 @@
+/** @odoo-module **/
+
 // Copyright 2025 Quartile (https://www.quartile.co)
 // License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
@@ -81,13 +83,13 @@ async function refreshBanners(ctrl, extraChanges) {
     const seq = (ctrl.__wfbSeq = (ctrl.__wfbSeq || 0) + 1);
     const rec = recRoot(ctrl);
     if (!rec) return;
-    await safe(() => rec.askChanges());
+    await safe(() => rec.model._askChanges());
     const nodes = bannersIn(ctrl);
     if (!nodes.length) return;
     const snap = {...shrink(rec.data), ...shrink(extraChanges)};
     const names = triggerNames(ctrl);
     const vals = rec.resId ? (names.length ? sliceBy(snap, names) : {}) : snap;
-    const orm = ctrl.env.services.orm;
+    const orm = ctrl.orm || ctrl.env.services.orm;
     for (const el of nodes) {
         const ruleId = parseInt(el.dataset.ruleId, 10);
         const args = [ruleId, el.dataset.model, rec.resId, vals];
